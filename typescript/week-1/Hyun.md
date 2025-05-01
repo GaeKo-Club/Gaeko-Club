@@ -1,1 +1,1 @@
-# typescript 스터디
+영현
