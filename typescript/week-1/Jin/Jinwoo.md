@@ -4,6 +4,6 @@ Typescript 1주차 완료
 
 허나, 타입 지정 없이 간단하게 변수를 선언하다가 갑자기 타입을 지정하려다 보니 조큼 **귀찮다 ㅎㅎ**
 
-<a href="./chapter2.md"> ✏️ 타입의 종류 </a>
+<a href="./study-note/chapter2.md"> ✏️ 타입의 종류 </a>
 
-<a href="./chapter3.md"> ✏️ 타입 호환성 및 대수 타입 </a>
+<a href="./study-note/chapter3.md"> ✏️ 타입 호환성 및 대수 타입 </a>

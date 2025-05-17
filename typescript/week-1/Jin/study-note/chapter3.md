@@ -2,14 +2,15 @@
 
 A와 B 두개의 타입이 존재할 때 A 타입의 값을 B 타입으로 취급해도 괜찮은지 판단하는 것
 
+![alt text](images/casting.png)
+
 서브 타입의 값을 슈퍼 타입의 값으로 취급하는 것은 **업 캐스팅**
 
 반대는 **다운캐스팅**
-![alt text](image-1.png)
 
 ## 타입 계층도
 
-![alt text](image.png)
+![alt text](images/hierarchy.png)
 
 ### unknown 타입 (전체 집합)
 
