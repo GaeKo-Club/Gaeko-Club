@@ -233,4 +233,217 @@ let dog: Dog = {
 let num1 = 10 as never; // 가능
 let num2 = 10 as unknown; // 가능
 let num3 = 10 as string; // 불가능
+
+// const 단언
+let let cat = {
+  name: "야옹이",
+  color: "yellow",
+} as const; // 모든 프로퍼티가 readonly를 갖도록 단언된다.
+
+//Non Null 단언
+const len: number = post.author!.length; // 값 뒤에 !를 붙여 값이 undefined이거나 null이 아닌 걸 단언
+```
+
+### 타입 좁히기
+
+타입 좁히기란, 하나 이상의 타입(유니온 타입)을 가진 값에 대해 조건문 등을 이용해 실제 타입을 판별하고, 그에 맞게 확정하는 방법이다.
+
+```tsx
+// 타입 좁히기 typeof 사용
+function func(value: number | string) {
+  if (typeof value === "number") {
+    console.log(value.toFixed());
+  } else if (typeof value === "string") {
+    console.log(value.toUpperCase());
+  }
+}
+
+instanceof 타입 가드 내장 클래스 타입을 보장할 수 있는 타입가드 만들기
+function func(value: number | string | Date | null) {
+  if (typeof value === "number") {
+    console.log(value.toFixed());
+  } else if (typeof value === "string") {
+    console.log(value.toUpperCase());
+  } else if (value instanceof Date) {
+    console.log(value.getTime());
+  }
+}
+
+in 타입 가드 직접 만든 타입과 함께 사용하는 하려면 in 연산자 사용
+type Person = {
+  name: string;
+  age: number;
+};
+
+function func(value: number | Person) {
+  if (typeof value === "number") {
+    console.log(value.toFixed());
+  }else if (value && "age" in value) {
+    console.log(`${value.name}은 ${value.age}살 입니다`)
+  }
+}
+```
+
+### 서로소 유니온 타입
+
+서로소 유니온 타입은 교집합이 없는 서로 다른 타입들로 구성된 유니온 타입을 의미한다
+
+```tsx
+type Admin = {
+  tag: "ADMIN";
+  name: string;
+  kickCount: number;
+};
+
+type Member = {
+  tag: "MEMBER";
+  name: string;
+  point: number;
+};
+
+type Guest = {
+  tag: "GUEST";
+  name: string;
+  visitCount: number;
+};
+
+type User = Admin | Member | Guest; // 서로소 유니온 타입
+
+function login(user: User) {
+  switch (user.tag) {
+    case "ADMIN": {
+      console.log(`${user.name}님 현재까지 ${user.kickCount}명 추방했습니다`);
+      break;
+    }
+    case "MEMBER": {
+      console.log(`${user.name}님 현재까지 ${user.point}모았습니다`);
+      break;
+    }
+    case "GUEST": {
+      console.log(`${user.name}님 현재까지 ${user.visitCount}번 오셨습니다`);
+      break;
+    }
+  }
+} // switch문을 if문 보다 많이 사용, 누락된 case를 알려준다.
+```
+
+## 함수 타입
+
+자바스크립트에서 사용하던 함수를 타입스크립트로 작성하면, 매개변수와 반환값에 타입을 명시해 보다 명확하게 표현할 수 있다.
+
+```tsx
+// 함수 선언식
+function func(a: number, b: number) {
+  return a + b;
+}
+
+// 화살표 함수
+const add = (a: number, b: number) => a + b;
+
+// 매개변수 기본 값
+function introduce(name = "박광민") {
+  console.log(`name : ${name}`);
+}
+
+introduce(1); // 오류
+```
+
+### 함수 타입 표현식 / 호출 시그니쳐
+
+```tsx
+// 함수 타입 표현식
+type Operation = (a: number, b: number) => number;
+
+const add: Operation = (a, b) => a + b;
+const sub: Operation = (a, b) => a - b;
+const multiply: Operation = (a, b) => a * b;
+const divide: Operation = (a, b) => a / b;
+
+// 호출 시그니쳐
+type Operation2 = {
+  (a: number, b: number): number;
+};
+
+const add2: Operation2 = (a, b) => a + b;
+const sub2: Operation2 = (a, b) => a - b;
+const multiply2: Operation2 = (a, b) => a * b;
+const divide2: Operation2 = (a, b) => a / b;
+```
+
+함수 타입 표현식과 호출 시그니쳐는 비슷해 보이지만 차이점이 있다.
+호출 시그니쳐는 속성을 추가하거나 함수 오버로딩이 가능한 반면,
+함수 타입 표현식은 순수한 함수 타입만 정의할 수 있다.
+
+### 함수 타입의 호환성
+
+함수 타입의 호환성이란 특정 함수 타입을 다른 함수 타입으로 괜찮은지 판단하는 것을 의미
+
+1. 두 함수의 반환값 타입이 호환되는가?
+2. 두 함수의 매개변수의 타입이 호환되는가?
+
+```tsx
+// 반환값 타입이 호환되는지 여부
+type A = () => number; // 슈퍼 타입
+type B = () => 10; // 서브 타입
+
+let a: A = () => 10;
+let b: B = () => 10;
+
+a = b; // 가능: B의 반환값(10)은 A의 반환값(number)에 포함됨
+b = a; // 불가능: A의 반환값은 항상 10이 아닐 수 있음
+
+// 매개변수의 갯수가 같을 때
+type Animal = {
+  name: string; // 슈퍼 타입
+};
+
+type Dog = {
+  name: string; // 서브 타입
+  color: string;
+};
+
+let animalFunc = (animal: Animal) => {
+  console.log(animal.name);
+};
+
+let dogFunc = (dog: Dog) => {
+  console.log(dog.name);
+  console.log(dog.color);
+};
+
+animalFunc = dogFunc; // 가능: Dog는 Animal보다 자세하므로 가능
+dogFunc = animalFunc; // 불가능: Animal엔 color가 없을 수도 있음
+
+// 매개변수의 갯수가 다를 때
+type Func1 = (a: number, b: number) => void; // 슈퍼 타입
+type Func2 = (a: number) => void; // 서브 타입
+
+let func1: Func1 = (a, b) => {};
+let func2: Func2 = (a) => {};
+
+func1 = func2; // 가능: func2는 func1처럼 동작할 수 있음
+func2 = func1; // 불가능: func1은 두 개 필요함
+```
+
+### 함수 오버로딩
+
+함수 오버로딩이란 하나의 함수를 매개변수의 개수나 타입에 따라 다르게 동작하도록 만드는 문법이다.
+
+```tsx
+// 오버로드 시그니쳐들
+function func(a: number): void;
+function func(a: number, b: number, c: number): void;
+
+// 실제 구현(구현 시그니쳐는 단 하나만 가능)
+function func(a: number, b?: number, C?: number) {
+  if (typeof b === "number" && typeof c === "number") {
+    console.log(a + b + c); // 세 개 모두 있을 때
+  } else {
+    console.log(a * 20); // 하나만 있을 때
+  }
+}
+
+func(1); // 매개변수 1개 -> 첫 번째 오버로드 시그니처
+func(1, 2); // 오류:(a: number, b: number) 형태는 정의된 오버로드에 없음
+func(1, 2, 3); // 매개변수 3개 -> 두 번째 오버로드 시그니처
 ```
