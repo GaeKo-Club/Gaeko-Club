@@ -1,54 +1,27 @@
-# React + TypeScript + Vite
+## 간단한 Counter 컴포넌트
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![counter](../study-note/images/counter.png)
 
-Currently, two official plugins are available:
+- [x] 초기 Count는 0으로 시작되며
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [x] Increase 버튼을 클릭하면 1이 늘어나며
 
-## Expanding the ESLint configuration
+- [x] Decrease 버튼을 클릭하면 1이 줄어든다.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+이러한 기능들이 모두 동작하는지 확인하기 위해서 `Counter.test.tsx` 파일이 존재한다.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 테스트 방법
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+터미널에서 `npx vitest`를 입력 시 테스트가 진행된다.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+#### 🔽 테스트를 진행했을 때 모두 통과하는 모습
+
+![test-result](../study-note/images/test-result.png)
+
+터미널에서 `npx vitest --ui`를 입력 시 ui에서도 확인이 가능하다.
+
+#### 🔽 ui에서 테스트 결과를 확인하는 모습
+
+![ui](../study-note/images/vitest-ui.png)
