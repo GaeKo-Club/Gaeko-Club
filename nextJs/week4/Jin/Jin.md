@@ -50,6 +50,8 @@ export default async function Page({
 
 ## ⚡️ React Server Component
 
+![server](https://github.com/user-attachments/assets/506859a9-c4e1-48d3-9fae-9709e532aa08)
+
 ### ✔️ 개념
 
 - **상호작용이 필요 없는 컴포넌트**를 서버에서 렌더링하는 방식
@@ -115,6 +117,9 @@ export default async function Page({
 | ---------------- | ----------------------------------------------------------- |
 | **Dynamic Page** | 데이터가 매번 변하거나 cache: "no-store" 옵션을 가진 페이지 |
 | **Static Page**  | Dynamic Page가 아닌 정적 페이지                             |
+
+![page](https://github.com/user-attachments/assets/6226f1a4-34d1-491e-9999-a7e519ca5faf)
+
 
 ### ⏳ Suspense로 클라이언트 컴포넌트 사전 렌더링 배제하기
 
